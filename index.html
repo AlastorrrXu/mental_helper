@@ -1,278 +1,54 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>心理支持 MVP</title>
-  <style>
-    :root {
-      --bg1: #eef6ff;
-      --bg2: #f5f0ff;
-      --card: #ffffff;
-      --text: #162033;
-      --muted: #64748b;
-      --blue: #2563eb;
-      --blue2: #1d4ed8;
-      --line: #dbe3ef;
-      --soft: #f8fafc;
-      --red: #dc2626;
-      --amber: #d97706;
-      --green: #059669;
-      --violet: #7c3aed;
-      --shadow: 0 20px 45px rgba(15, 23, 42, 0.10);
-      --radius: 24px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      min-height: 100vh;
-    }
-    .page { max-width: 1280px; margin: 0 auto; padding: 20px; }
-    .card {
-      background: rgba(255,255,255,0.94);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
-    .header { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 16px; }
-    .brand { display: flex; gap: 14px; align-items: center; }
-    .logo { width: 52px; height: 52px; border-radius: 18px; background: var(--blue); color: white; display: grid; place-items: center; font-size: 28px; }
-    h1 { margin: 0; font-size: 30px; }
-    h2 { margin: 0 0 12px; font-size: 20px; }
-    p { margin: 0; line-height: 1.7; }
-    .muted { color: var(--muted); font-size: 14px; }
-    .notice { margin-top: 14px; padding: 13px; border-radius: 18px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; font-size: 14px; line-height: 1.7; }
-    .grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 16px; align-items: start; }
-    .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
-    .mini { background: var(--soft); border: 1px solid #e7edf6; border-radius: 18px; padding: 12px; min-height: 72px; }
-    .mini b { display: block; margin-bottom: 8px; }
-    .chat { height: 500px; overflow-y: auto; background: var(--soft); border: 1px solid #e7edf6; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
-    .bubbleWrap { display: flex; }
-    .bubbleWrap.user { justify-content: flex-end; }
-    .bubble {
-      max-width: 86%;
-      white-space: pre-wrap;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: white;
-      padding: 12px 14px;
-      font-size: 14px;
-      line-height: 1.75;
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
-    }
-    .bubble.user { background: var(--blue); color: white; border-color: var(--blue); }
-    .bubble.high { background: #fffbeb; border-color: #fde68a; color: #78350f; }
-    .bubble.crisis { background: #fef2f2; border-color: #fecaca; color: #7f1d1d; }
-    .quick { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-    button {
-      border: 0;
-      border-radius: 14px;
-      background: var(--blue);
-      color: white;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    button:hover { background: var(--blue2); }
-    button.secondary { background: white; color: var(--text); border: 1px solid var(--line); }
-    button.secondary:hover { background: #f8fafc; }
-    button.dark { background: #111827; }
-    button.dark:hover { background: #0f172a; }
-    .quick button { font-size: 12px; padding: 8px 11px; border-radius: 999px; font-weight: 500; }
-    .composer { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
-    textarea, input[type="text"] {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 12px 14px;
-      font: inherit;
-      outline: none;
-      background: white;
-    }
-    textarea { min-height: 96px; resize: vertical; }
-    textarea:focus, input[type="text"]:focus { border-color: #93c5fd; box-shadow: 0 0 0 4px #dbeafe; }
-    .slider { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 12px; background: var(--soft); border-radius: 18px; margin-bottom: 12px; }
-    input[type="range"] { width: 180px; accent-color: var(--blue); }
-    .stack { display: flex; flex-direction: column; gap: 16px; }
-    .method { background: var(--soft); border: 1px solid #e7edf6; border-radius: 18px; padding: 13px; margin-bottom: 10px; }
-    .method button { margin-top: 10px; font-size: 12px; padding: 8px 10px; }
-    .status { display: inline-block; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 700; background: #ecfdf5; color: #065f46; }
-    .status.high { background: #fffbeb; color: #92400e; }
-    .status.crisis { background: #fef2f2; color: #991b1b; }
-    .bert { display: grid; grid-template-columns: 180px 1fr 220px; gap: 10px; align-items: center; margin-top: 12px; }
-    .record { background: var(--soft); border-radius: 16px; padding: 12px; margin-bottom: 10px; font-size: 13px; line-height: 1.65; }
-    .records { max-height: 270px; overflow-y: auto; }
-    @media (max-width: 960px) {
-      .grid { grid-template-columns: 1fr; }
-      .row { grid-template-columns: 1fr; }
-      .bert { grid-template-columns: 1fr; }
-      .header { flex-direction: column; align-items: flex-start; }
-      .composer { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mental Helper</title>
+<style>
+body{margin:0;font-family:system-ui,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(135deg,#eef6ff,#f5f0ff);color:#162033}.page{max-width:1180px;margin:0 auto;padding:20px}.card{background:white;border:1px solid #dbe3ef;border-radius:24px;padding:20px;box-shadow:0 18px 40px rgba(15,23,42,.1);margin-bottom:16px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center}.brand{display:flex;gap:14px;align-items:center}.logo{width:52px;height:52px;border-radius:18px;background:#2563eb;color:white;display:grid;place-items:center;font-size:28px;font-weight:800}h1,h2{margin:0}h1{font-size:30px}h2{font-size:20px;margin-bottom:12px}p{line-height:1.7}.muted{color:#64748b;font-size:14px}.notice{background:#eff6ff;color:#1e3a8a;border:1px solid #bfdbfe;border-radius:18px;padding:13px;font-size:14px}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}.mini{background:#f8fafc;border:1px solid #e7edf6;border-radius:18px;padding:12px;min-height:72px}.mini b{display:block;margin-bottom:8px}.chat{height:500px;overflow-y:auto;background:#f8fafc;border:1px solid #e7edf6;border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:12px}.wrap{display:flex}.wrap.user{justify-content:flex-end}.bubble{max-width:86%;white-space:pre-wrap;border-radius:18px;border:1px solid #dbe3ef;background:white;padding:12px 14px;font-size:14px;line-height:1.75}.bubble.user{background:#2563eb;color:white;border-color:#2563eb}.quick{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}button{border:0;border-radius:14px;background:#2563eb;color:white;padding:10px 14px;cursor:pointer;font-weight:650}button.secondary{background:white;color:#162033;border:1px solid #dbe3ef}button.dark{background:#111827}.composer{display:grid;grid-template-columns:1fr auto;gap:10px}textarea,input{width:100%;border:1px solid #dbe3ef;border-radius:18px;padding:12px 14px;font:inherit;outline:none}textarea{min-height:96px;resize:vertical}.bert{display:grid;grid-template-columns:190px 1fr 220px;gap:10px;align-items:center;margin-top:12px}.slider{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px;background:#f8fafc;border-radius:18px;margin-bottom:12px}.method,.record{background:#f8fafc;border:1px solid #e7edf6;border-radius:18px;padding:13px;margin-bottom:10px}.tag{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700;background:#ecfdf5;color:#065f46}@media(max-width:900px){.grid,.row,.bert{grid-template-columns:1fr}.top{flex-direction:column;align-items:flex-start}.composer{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div class="page">
-    <section class="card">
-      <div class="header">
-        <div class="brand">
-          <div class="logo">心</div>
-          <div>
-            <h1>心理支持 MVP</h1>
-            <p class="muted">输入对话，识别问题，推荐情绪处理方法，支持本地记录和 BERT 接口</p>
-          </div>
-        </div>
-        <div>
-          <button class="secondary" id="exportBtn">导出记录</button>
-          <button class="secondary" id="resetBtn">重置</button>
-        </div>
-      </div>
-      <div class="notice">这是心理支持和自助练习原型，不做诊断，不给用药建议，不替代医生或心理治疗师。出现高风险表达时，会优先提示联系现实帮助。</div>
-      <div class="bert">
-        <label class="mini"><input type="checkbox" id="useBert" /> 使用 BERT 识别</label>
-        <input type="text" id="bertEndpoint" value="http://localhost:8000/analyze" />
-        <div class="mini">状态：<span id="apiStatus">未连接</span></div>
-      </div>
-    </section>
-
-    <div class="grid" style="margin-top:16px">
-      <main class="card">
-        <h2>输入对话或经历</h2>
-        <div class="row">
-          <div class="mini"><b>风险状态</b><span id="riskText">普通支持</span></div>
-          <div class="mini"><b>识别问题</b><span id="issueText">等待输入</span></div>
-          <div class="mini"><b>识别来源</b><span id="sourceText">本地规则</span></div>
-        </div>
-        <div class="slider">
-          <div>
-            <b>情绪强度：<span id="moodValue">5</span>/10</b>
-            <p class="muted">强度越高，系统越倾向于先推荐稳定情绪</p>
-          </div>
-          <input type="range" id="mood" min="1" max="10" value="5" />
-        </div>
-        <div class="chat" id="chat"></div>
-        <div class="quick" id="quickBtns"></div>
-        <div class="composer">
-          <textarea id="input" placeholder="粘贴一段对话，或输入你现在的经历和感受"></textarea>
-          <button id="sendBtn">发送</button>
-        </div>
-      </main>
-
-      <aside class="stack">
-        <section class="card">
-          <h2>识别结果</h2>
-          <div id="analysisBox" class="muted">输入内容后，这里会显示问题识别结果。</div>
-        </section>
-        <section class="card">
-          <h2>情绪处理方法</h2>
-          <div id="methodsBox"></div>
-        </section>
-        <section class="card">
-          <h2>练习记录</h2>
-          <textarea id="note" placeholder="写下你试了哪个方法，情绪有没有变化"></textarea>
-          <div class="records" id="recordsBox"></div>
-        </section>
-      </aside>
-    </div>
-  </div>
-
-  <script>
-    const riskWords = ["自杀", "想死", "不想活", "结束生命", "割腕", "跳楼", "自残", "伤害自己", "活不下去", "服药自杀", "寻死", "suicide", "kill myself"];
-    const highWords = ["崩溃", "绝望", "撑不住", "受不了了", "恐慌", "发疯", "窒息", "没人爱我", "没意义", "快不行了"];
-    const issueRules = [
-      { issue: "焦虑和灾难化想法", words: ["焦虑", "担心", "害怕", "紧张", "完蛋", "肯定不行", "最糟", "会失败"], methods: ["先把问题写成一句具体的话，不要写成一团感觉。", "做证据检查：支持这个想法的证据是什么，反对它的证据是什么。", "把最糟结果，中等结果，最好结果分别写出来，再估计每个结果的概率。", "做 4 秒吸气和 6 秒呼气，重复三轮，让身体先降速。"] },
-      { issue: "低落和自我否定", words: ["难过", "低落", "没用", "失败", "废物", "不值得", "没人喜欢", "讨厌自己"], methods: ["把评价改写成事实。例如把我很失败改成我这次考试没达到预期。", "写一个你会对好朋友说的版本，再把它说给自己。", "做一个低门槛行动，例如洗脸，喝水，出门走五分钟。", "不要要求自己马上积极，只需要让情绪从 9 分降到 7 分。"] },
-      { issue: "关系受伤和被拒绝感", words: ["朋友", "忽略", "冷淡", "分手", "喜欢我", "讨厌我", "家人", "父母", "对象"], methods: ["区分事实和解释。事实是对方做了什么，解释是你认为这代表什么。", "写出你的真实需要，例如被回应，被尊重，被理解，还是需要空间。", "先不要立刻追问或攻击，等情绪下降后再表达。", "可以用我感到怎样，因为我需要怎样的句式沟通。"] },
-      { issue: "学习或工作压力", words: ["考试", "作业", "ddl", "deadline", "论文", "成绩", "presentation", "工作", "项目"], methods: ["把任务拆成十五分钟内能完成的一步。", "先做最容易开始的一步，不要先追求完整计划。", "用事实列表替代恐慌列表：还剩什么，最急什么，可以放弃什么。", "设一个结束时间，避免用无限焦虑换取效率。"] },
-      { issue: "睡眠困难和夜间反刍", words: ["睡不着", "失眠", "熬夜", "睡眠", "做梦", "醒", "脑子停不下来"], methods: ["把明天要想的事写到纸上，告诉大脑已经保存。", "把目标从必须睡着改成降低唤醒。", "减少屏幕和强刺激内容，选择无聊低刺激活动。", "如果躺很久仍清醒，可以短暂离开床，困了再回来。"] }
-    ];
-    const fallbackMethods = ["先命名情绪：我现在感到焦虑，难过，愤怒，羞耻，还是孤独。", "给情绪打分，从 0 到 10 分。", "写下触发事件，自动想法，身体反应，想做的冲动。", "做一个很小的照顾动作，例如喝水，洗脸，深呼吸，出门走几分钟。"];
-    const first = { role: "assistant", type: "normal", text: "你好，我是一个心理支持 MVP。你可以输入一段对话，经历，或者心里话。我会先识别可能的问题类型，再给出一些情绪处理方法。我不是医生，也不能替代心理治疗。" };
-    let messages = JSON.parse(localStorage.getItem("mindcare_messages") || "null") || [first];
-    let records = JSON.parse(localStorage.getItem("mindcare_records") || "[]");
-    let lastResult = null;
-
-    const el = id => document.getElementById(id);
-    const hasAny = (text, words) => words.some(w => String(text || "").toLowerCase().includes(String(w).toLowerCase()));
-    function getEmotion(text) {
-      const pairs = [["焦虑", ["焦虑", "担心", "紧张", "害怕", "恐慌"]], ["难过", ["难过", "伤心", "低落", "哭", "委屈"]], ["愤怒", ["生气", "愤怒", "烦", "火大", "讨厌"]], ["羞耻", ["丢脸", "羞耻", "尴尬", "没用", "废物"]], ["孤独", ["孤独", "孤单", "没人", "一个人"]]];
-      const found = pairs.filter(x => hasAny(text, x[1])).map(x => x[0]);
-      return found.length ? found : ["压力"];
-    }
-    function analyzeByRules(text, mood) {
-      let risk = "普通支持";
-      if (hasAny(text, riskWords)) risk = "危机优先";
-      else if (hasAny(text, highWords) || mood >= 8) risk = "强烈痛苦";
-      const matched = issueRules.filter(r => hasAny(text, r.words));
-      const main = matched[0] || { issue: "暂未明确分类的情绪压力", methods: fallbackMethods };
-      const methods = matched.length ? Array.from(new Set(matched.flatMap(r => r.methods))).slice(0, 6) : fallbackMethods;
-      return { source: "本地规则", model: "plain javascript rules", confidence: matched.length ? 0.72 : 0.48, risk, issue: main.issue, allIssues: matched.length ? matched.map(r => r.issue) : [main.issue], emotions: getEmotion(text), methods };
-    }
-    async function analyze(text, mood) {
-      if (!el("useBert").checked) { el("apiStatus").textContent = "使用本地规则"; return analyzeByRules(text, mood); }
-      try {
-        el("apiStatus").textContent = "正在请求 BERT 后端";
-        const res = await fetch(el("bertEndpoint").value, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, mood }) });
-        if (!res.ok) throw new Error("bad status");
-        const data = await res.json();
-        const rule = analyzeByRules(text, mood);
-        const result = { source: "BERT 后端", model: data.model || "bert classifier", confidence: typeof data.confidence === "number" ? data.confidence : 0.8, risk: data.risk || rule.risk, issue: data.issue || rule.issue, allIssues: data.allIssues || data.all_issues || [data.issue || rule.issue], emotions: data.emotions || rule.emotions, methods: data.methods || rule.methods };
-        el("apiStatus").textContent = "BERT 已连接";
-        return result;
-      } catch (e) {
-        el("apiStatus").textContent = "BERT 连接失败，已退回本地规则";
-        return analyzeByRules(text, mood);
-      }
-    }
-    function buildReply(result) {
-      if (result.risk === "危机优先") return { role: "assistant", type: "crisis", text: "我很在意你现在的安全。你的输入里出现了可能和自伤或自杀有关的内容。\n\n现在最重要的不是继续分析，而是让现实中的人介入。请立刻联系当地紧急服务，身边可信任的人，学校心理中心，医院急诊，或当地危机热线。\n\n如果你身边有可能伤害自己的工具，请现在先远离它，并尽快让一个现实中的人陪你。" };
-      if (result.risk === "强烈痛苦") return { role: "assistant", type: "high", text: `我识别到：${result.issue}。当前情绪强度比较高，建议先做稳定情绪，再做问题分析。\n\n你可以现在做这个方法：双脚踩地，慢慢吸气 4 秒，呼气 6 秒，重复三轮。然后说出你看到的 5 样东西。\n\n等身体稍微降下来后，再从右侧选择一条方法写进记录。` };
-      return { role: "assistant", type: "normal", text: [`我识别到的主要问题是：${result.issue}。`, `可能的情绪是：${result.emotions.join("，")}。`, `识别来源：${result.source}，模型：${result.model}，置信度：${Math.round(result.confidence * 100)}%。`, "可以尝试的方法：", ...result.methods.map((m, i) => `${i + 1}. ${m}`), "你可以先选最容易做到的一条，而不是一次解决全部问题。"].join("\n") };
-    }
-    function render() {
-      el("chat").innerHTML = messages.map(m => `<div class="bubbleWrap ${m.role === "user" ? "user" : ""}"><div class="bubble ${m.role === "user" ? "user" : m.type || ""}">${escapeHtml(m.text)}</div></div>`).join("");
-      el("chat").scrollTop = el("chat").scrollHeight;
-      const mood = Number(el("mood").value);
-      const result = lastResult || analyzeByRules(messages.filter(m => m.role === "user").map(m => m.text).join(" "), mood);
-      el("riskText").innerHTML = `<span class="status ${result.risk === "危机优先" ? "crisis" : result.risk === "强烈痛苦" ? "high" : ""}">${result.risk}</span>`;
-      el("issueText").textContent = lastResult ? lastResult.issue : "等待输入";
-      el("sourceText").textContent = lastResult ? lastResult.source : "本地规则";
-      el("analysisBox").innerHTML = lastResult ? `<p><b>主要问题：</b>${escapeHtml(lastResult.issue)}</p><p><b>相关问题：</b>${escapeHtml(lastResult.allIssues.join("，"))}</p><p><b>可能情绪：</b>${escapeHtml(lastResult.emotions.join("，"))}</p><p><b>风险等级：</b>${escapeHtml(lastResult.risk)}</p><p><b>来源：</b>${escapeHtml(lastResult.source)}，${escapeHtml(lastResult.model)}</p>` : "输入内容后，这里会显示问题识别结果。";
-      const methods = lastResult ? lastResult.methods : fallbackMethods;
-      el("methodsBox").innerHTML = methods.map((m, i) => `<div class="method"><p>${escapeHtml(m)}</p><button class="dark" onclick="saveMethod(${i})">保存这个方法</button></div>`).join("");
-      el("recordsBox").innerHTML = records.length ? records.map(r => `<div class="record"><p class="muted">${new Date(r.time).toLocaleString()}，强度 ${r.mood}/10</p><p><b>问题：</b>${escapeHtml(r.issue)}</p><p><b>方法：</b>${escapeHtml(r.method)}</p>${r.note ? `<p><b>记录：</b>${escapeHtml(r.note)}</p>` : ""}</div>`).join("") : `<p class="muted">还没有保存记录。</p>`;
-      localStorage.setItem("mindcare_messages", JSON.stringify(messages));
-      localStorage.setItem("mindcare_records", JSON.stringify(records));
-    }
-    function escapeHtml(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
-    async function send(text) {
-      const clean = String(text || el("input").value || "").trim();
-      if (!clean) return;
-      messages.push({ role: "user", type: "user", text: clean, time: new Date().toISOString() });
-      el("input").value = "";
-      render();
-      const result = await analyze(clean, Number(el("mood").value));
-      lastResult = result;
-      messages.push({ ...buildReply(result), time: new Date().toISOString() });
-      render();
-    }
-    window.saveMethod = function(i) {
-      const methods = lastResult ? lastResult.methods : fallbackMethods;
-      records.unshift({ id: Date.now(), time: new Date().toISOString(), mood: Number(el("mood").value), issue: lastResult ? lastResult.issue : "未识别", method: methods[i], note: el("note").value });
-      el("note").value = "";
-      render();
-    };
-    el("sendBtn").onclick = () => send();
-    el("input").addEventListener("keydown", e => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) send(); });
-    el("mood").oninput = () => { el("moodValue").textContent = el("mood").value; render(); };
-    el("resetBtn").onclick = () => { messages = [first]; records = []; lastResult = null; localStorage.clear(); render(); };
-    el("exportBtn").onclick = () => { const blob = new Blob([JSON.stringify({ messages, records }, null, 2)], { type: "application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mindcare_records.json"; a.click(); URL.revokeObjectURL(a.href); };
-    ["我最近很焦虑，总觉得自己会失败", "朋友没回我消息，我感觉没人喜欢我", "我压力很大，快撑不住了", "我睡不着，脑子一直停不下来"].forEach(t => { const b = document.createElement("button"); b.className = "secondary"; b.textContent = t; b.onclick = () => send(t); el("quickBtns").appendChild(b); });
-    render();
-  </script>
+<div class="page">
+<section class="card">
+<div class="top"><div class="brand"><div class="logo">心</div><div><h1>心理支持 MVP</h1><p class="muted">输入对话，识别情绪，问题，认知模式，并推荐处理方法</p></div></div><div><button class="secondary" id="exportBtn">导出记录</button> <button class="secondary" id="resetBtn">重置</button></div></div>
+<div class="notice">这是心理支持和自助练习原型，不做诊断，不提供医疗建议，不替代专业人士。高强度情绪请联系现实中的可信任人员或专业机构。</div>
+<div class="bert"><label class="mini"><input type="checkbox" id="useApi" checked> 使用 Hugging Face NLP</label><input id="apiUrl" value="https://bordercolliephilo-mental-helper.hf.space/analyze"><div class="mini">状态：<span id="apiStatus">默认连接 HF</span></div></div>
+</section>
+<div class="grid">
+<main class="card">
+<h2>输入对话或经历</h2>
+<div class="row"><div class="mini"><b>强度等级</b><span id="levelText">普通支持</span></div><div class="mini"><b>识别问题</b><span id="issueText">等待输入</span></div><div class="mini"><b>识别来源</b><span id="sourceText">Hugging Face NLP</span></div></div>
+<div class="slider"><div><b>情绪强度：<span id="moodValue">5</span>/10</b><p class="muted">强度越高，越优先推荐稳定情绪方法</p></div><input id="mood" type="range" min="1" max="10" value="5"></div>
+<div class="chat" id="chat"></div>
+<div class="quick" id="quickBtns"></div>
+<div class="composer"><textarea id="input" placeholder="粘贴一段对话，或输入你现在的经历和感受"></textarea><button id="sendBtn">发送</button></div>
+</main>
+<aside>
+<section class="card"><h2>识别结果</h2><div id="analysisBox" class="muted">输入内容后，这里会显示结果。</div></section>
+<section class="card"><h2>情绪处理方法</h2><div id="methodsBox"></div></section>
+<section class="card"><h2>练习记录</h2><textarea id="note" placeholder="写下你试了哪个方法，情绪有没有变化"></textarea><div id="recordsBox"></div></section>
+</aside>
+</div>
+</div>
+<script>
+const first={role:"assistant",type:"normal",text:"你好，我是一个心理支持 MVP。你可以输入一段经历，我会识别情绪，问题和认知模式，再给出一些处理方法。"};
+const localRules=[
+{issue:"外貌焦虑和自我形象困扰",words:["长得","不好看","一般","脸","个头","身高","地包天","大众脸","不够帅","不够高","外貌","颜值","被评价","像很多人","自卑"],methods:["区分事实和评价：事实是外貌特征，评价是自己或别人贴上的标签。","把注意力从我长得怎么样，转到这些评价让我受到了什么影响。","写下三个非外貌维度的自我描述，例如经历，性格，能力，关系，兴趣。","把攻击自己的话改写成对朋友也说得出口的话。"]},
+{issue:"焦虑和灾难化想法",words:["焦虑","担心","害怕","紧张","完蛋","肯定不行","最糟","会失败"],methods:["把问题写成一句具体的话。","列出支持和反对这个想法的证据。","把最糟结果，中等结果，最好结果分别写出来。","做 4 秒吸气和 6 秒呼气，重复三轮。"]},
+{issue:"关系受伤和被拒绝感",words:["朋友","忽略","冷淡","分手","喜欢我","讨厌我","家人","父母","对象"],methods:["区分事实和解释。","写出真实需要，例如被回应，被尊重，被理解。","等情绪下降后再表达。","用我感到怎样，因为我需要怎样的句式沟通。"]},
+{issue:"学习或工作压力",words:["考试","作业","ddl","deadline","论文","成绩","presentation","工作","项目"],methods:["把任务拆成十五分钟内能完成的一步。","先做最容易开始的一步。","用事实列表替代恐慌列表。","设一个结束时间，避免无限焦虑。"]},
+{issue:"睡眠困难和夜间反刍",words:["睡不着","失眠","熬夜","睡眠","做梦","醒","脑子停不下来"],methods:["把明天要处理的事写到纸上。","把目标从必须睡着改成降低唤醒。","减少屏幕和强刺激内容。","如果躺很久仍清醒，可以短暂离开床。"]}
+];
+const defaultMethods=["先命名情绪。","给情绪打分。","写下触发事件，自动想法，身体反应，想做的冲动。","做一个很小的照顾动作，例如喝水，洗脸，深呼吸。"];
+function read(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}let messages=read("mh_messages",[first]);let records=read("mh_records",[]);let last=null;const el=id=>document.getElementById(id);const has=(t,arr)=>arr.some(w=>String(t||"").toLowerCase().includes(String(w).toLowerCase()));
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]))}
+function localAnalyze(text,mood){const matched=localRules.filter(r=>has(text,r.words));const main=matched[0]||{issue:"暂未明确分类的情绪压力",methods:defaultMethods};const emotions=[];if(has(text,["焦虑","担心","紧张","害怕"]))emotions.push("焦虑");if(has(text,["难过","低落","委屈","伤心"]))emotions.push("难过");if(has(text,["长得","不好看","脸","身高","地包天","自卑"]))emotions.push("羞耻");if(!emotions.length)emotions.push("压力");const patterns=[];if(has(text,["肯定","一定","完蛋","最糟"]))patterns.push("灾难化");if(has(text,["大家都觉得","很多人","像很多人","总是"]))patterns.push("过度概括");if(has(text,["长得","脸","身高","颜值","地包天"]))patterns.push("外貌比较");return{source:"本地增强规则",model:"appearance aware rules",confidence:matched.length?.78:.48,risk:mood>=8?"高强度情绪":mood>=5?"中等强度情绪":"普通支持",issue:main.issue,allIssues:matched.length?matched.map(x=>x.issue):[main.issue],emotions,patterns,formulation:`你的描述里主要出现了${emotions.join("、")}，可能和${main.issue}有关。${patterns.length?"可能还包含"+patterns.join("、")+"。":""}`,methods:main.methods}}
+async function analyze(text,mood){if(!el("useApi").checked){el("apiStatus").textContent="使用本地增强规则";return localAnalyze(text,mood)}try{el("apiStatus").textContent="正在连接 Hugging Face";const r=await fetch(el("apiUrl").value,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,mood})});if(!r.ok)throw new Error("api failed");const d=await r.json();const fallback=localAnalyze(text,mood);el("apiStatus").textContent="Hugging Face 已连接";return{source:d.source||"Hugging Face NLP",model:d.model||"mental helper api",confidence:typeof d.confidence==="number"?d.confidence:.8,risk:d.risk||d.level||fallback.risk,issue:d.issue||fallback.issue,allIssues:d.allIssues||d.all_issues||fallback.allIssues,emotions:d.emotions||fallback.emotions,patterns:d.patterns||fallback.patterns,formulation:d.formulation||fallback.formulation,methods:d.methods||fallback.methods}}catch(e){el("apiStatus").textContent="连接失败，已用本地增强规则";return localAnalyze(text,mood)}}
+function reply(result){const lines=[`我识别到的主要问题是：${result.issue}。`,`可能的情绪是：${result.emotions.join("，")}。`,result.patterns&&result.patterns.length?`可能的认知模式是：${result.patterns.join("，")}。`:"",result.formulation?`简短理解：${result.formulation}`:"",`识别来源：${result.source}，模型：${result.model}，置信度：${Math.round(result.confidence*100)}%。`,"可以尝试的方法：",...result.methods.map((m,i)=>`${i+1}. ${m}`),"你可以先选最容易做到的一条，而不是一次解决全部问题。"].filter(Boolean);return{role:"assistant",text:lines.join("\n")}}
+function render(){el("chat").innerHTML=messages.map(m=>`<div class="wrap ${m.role==="user"?"user":""}"><div class="bubble ${m.role==="user"?"user":""}">${esc(m.text)}</div></div>`).join("");el("chat").scrollTop=el("chat").scrollHeight;const mood=Number(el("mood").value);const res=last||localAnalyze(messages.filter(m=>m.role==="user").map(m=>m.text).join(" "),mood);el("levelText").innerHTML=`<span class="tag">${res.risk}</span>`;el("issueText").textContent=last?last.issue:"等待输入";el("sourceText").textContent=last?last.source:"Hugging Face NLP";el("analysisBox").innerHTML=last?`<p><b>主要问题：</b>${esc(last.issue)}</p><p><b>相关问题：</b>${esc(last.allIssues.join("，"))}</p><p><b>可能情绪：</b>${esc(last.emotions.join("，"))}</p>${last.patterns&&last.patterns.length?`<p><b>认知模式：</b>${esc(last.patterns.join("，"))}</p>`:""}${last.formulation?`<p><b>简短理解：</b>${esc(last.formulation)}</p>`:""}<p><b>强度等级：</b>${esc(last.risk)}</p><p><b>来源：</b>${esc(last.source)}，${esc(last.model)}</p>`:"输入内容后，这里会显示结果。";const ms=last?last.methods:defaultMethods;el("methodsBox").innerHTML=ms.map((m,i)=>`<div class="method"><p>${esc(m)}</p><button class="dark" onclick="saveMethod(${i})">保存这个方法</button></div>`).join("");el("recordsBox").innerHTML=records.length?records.map(x=>`<div class="record"><p class="muted">${new Date(x.time).toLocaleString()}，强度 ${x.mood}/10</p><p><b>问题：</b>${esc(x.issue)}</p><p><b>方法：</b>${esc(x.method)}</p>${x.note?`<p><b>记录：</b>${esc(x.note)}</p>`:""}</div>`).join(""):`<p class="muted">还没有保存记录。</p>`;localStorage.setItem("mh_messages",JSON.stringify(messages));localStorage.setItem("mh_records",JSON.stringify(records))}
+async function send(t){const clean=String(t||el("input").value||"").trim();if(!clean)return;messages.push({role:"user",text:clean,time:new Date().toISOString()});el("input").value="";render();last=await analyze(clean,Number(el("mood").value));messages.push({...reply(last),time:new Date().toISOString()});render()}
+window.saveMethod=function(i){const ms=last?last.methods:defaultMethods;records.unshift({id:Date.now(),time:new Date().toISOString(),mood:Number(el("mood").value),issue:last?last.issue:"未识别",method:ms[i],note:el("note").value});el("note").value="";render()};el("sendBtn").onclick=()=>send();el("mood").oninput=()=>{el("moodValue").textContent=el("mood").value;render()};el("resetBtn").onclick=()=>{messages=[first];records=[];last=null;localStorage.removeItem("mh_messages");localStorage.removeItem("mh_records");render()};el("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({messages,records},null,2)],{type:"application/json"});const a=document.createElement("a");const url=URL.createObjectURL(blob);a.href=url;a.download="mental_helper_records.json";a.click();URL.revokeObjectURL(url)};["我觉得自己长得一般，经常因为脸和身高自卑","我最近很焦虑，总觉得自己会失败","朋友没回我消息，我感觉没人喜欢我","我睡不着，脑子一直停不下来"].forEach(t=>{const b=document.createElement("button");b.className="secondary";b.textContent=t;b.onclick=()=>send(t);el("quickBtns").appendChild(b)});render();
+</script>
 </body>
 </html>
