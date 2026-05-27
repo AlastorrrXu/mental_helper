@@ -3,55 +3,340 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mental Helper</title>
+<title>小小情绪花园</title>
 <style>
-:root{--cream:#fff8ee;--peach:#ffe8d6;--rose:#ffe4e6;--mint:#e8f7ef;--sage:#6b8f71;--tea:#8a5a44;--ink:#2f2a28;--soft:#fffdf8;--line:#f1dfce;--muted:#7e716a;--shadow:0 20px 55px rgba(138,90,68,.14)}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 10%,#fff0d8 0,#fff0d8 22%,transparent 38%),radial-gradient(circle at 90% 0,#ffe4e6 0,#ffe4e6 20%,transparent 36%),linear-gradient(135deg,#fff8ee,#f6fff8)}.page{max-width:1240px;margin:0 auto;padding:24px}.hero{position:relative;overflow:hidden;background:rgba(255,253,248,.86);border:1px solid var(--line);border-radius:34px;padding:26px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}.hero:after{content:"";position:absolute;right:24px;top:22px;width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#ffe8d6,#e8f7ef);opacity:.65}.top{position:relative;z-index:1;display:flex;justify-content:space-between;gap:18px;align-items:center}.brand{display:flex;align-items:center;gap:16px}.logo{width:58px;height:58px;border-radius:22px;background:linear-gradient(135deg,#f6a96d,#93c9a0);color:white;display:grid;place-items:center;font-size:30px;font-weight:800;box-shadow:0 12px 25px rgba(147,201,160,.25)}h1,h2,h3{margin:0}h1{font-size:32px;letter-spacing:.02em}h2{font-size:22px;margin-bottom:14px}h3{font-size:16px}.sub{margin-top:6px;color:var(--muted);font-size:15px;line-height:1.7}.notice{position:relative;z-index:1;margin-top:18px;background:#fff4e8;border:1px solid #f4d6bc;color:#6f4b38;border-radius:22px;padding:14px 16px;font-size:14px;line-height:1.8}.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;margin-top:18px}.card{background:rgba(255,253,248,.92);border:1px solid var(--line);border-radius:30px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}.row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.mini{background:#fffaf3;border:1px solid #f1dfce;border-radius:22px;padding:14px;min-height:82px}.mini b{display:block;margin-bottom:8px;color:#4c3a32}.mini span{color:#6d5c54}.chat{height:520px;overflow-y:auto;background:linear-gradient(180deg,#fffaf3,#fffdf8);border:1px solid #f1dfce;border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-color:#e8cdb8 transparent}.wrap{display:flex}.wrap.user{justify-content:flex-end}.bubble{max-width:86%;white-space:pre-wrap;border-radius:24px;border:1px solid #f1dfce;background:white;padding:14px 16px;font-size:15px;line-height:1.8;box-shadow:0 10px 25px rgba(138,90,68,.07)}.bubble.user{background:linear-gradient(135deg,#f6a96d,#e58b79);color:white;border-color:#eda181}.bubble.assistant{background:#fffefb}.quick{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}button{border:0;border-radius:18px;background:#8bbf9a;color:white;padding:11px 16px;cursor:pointer;font-weight:700;box-shadow:0 10px 22px rgba(107,143,113,.16)}button:hover{filter:brightness(.97);transform:translateY(-1px)}button.secondary{background:#fffdf8;color:#6f4b38;border:1px solid #ead3bf;box-shadow:none}.quick button{font-size:13px;padding:9px 13px;border-radius:999px;font-weight:600}.composer{display:grid;grid-template-columns:1fr auto;gap:12px}textarea,input{width:100%;border:1px solid #ead3bf;border-radius:24px;padding:14px 16px;font:inherit;outline:none;background:#fffdf8;color:var(--ink)}textarea{min-height:104px;resize:vertical}textarea:focus,input:focus{border-color:#d9aa88;box-shadow:0 0 0 5px rgba(246,169,109,.16)}.slider{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px;background:#fffaf3;border:1px solid #f1dfce;border-radius:24px;margin-bottom:14px}.slider p{margin:.2rem 0 0;color:var(--muted);font-size:14px}input[type="range"]{width:190px;accent-color:#f6a96d}.side{display:flex;flex-direction:column;gap:18px}.method,.record{background:#fffaf3;border:1px solid #f1dfce;border-radius:24px;padding:15px;margin-bottom:12px;line-height:1.75}.method button{margin-top:12px;background:#6b8f71;font-size:13px;padding:9px 12px}.records{max-height:280px;overflow-y:auto}.tag{display:inline-block;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800;background:#e8f7ef;color:#4f7856}.tag.warm{background:#fff0df;color:#a45d36}.analysis p{margin:0 0 10px;line-height:1.75}.footerTip{color:var(--muted);font-size:13px;margin-top:10px}.pillRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff0df;color:#8a5a44;font-size:13px;font-weight:650}.calm{display:flex;gap:10px;align-items:center;color:#6b8f71;font-weight:700}.leaf{font-size:22px}@media(max-width:920px){.grid,.row{grid-template-columns:1fr}.top{flex-direction:column;align-items:flex-start}.composer{grid-template-columns:1fr}.slider{flex-direction:column;align-items:flex-start}input[type="range"]{width:100%}}
+:root{
+  --paper:#fffaf3;
+  --paper2:#fffdf8;
+  --cream:#fff4e4;
+  --peach:#ffd7ba;
+  --rose:#ffdfe6;
+  --mint:#dff5e7;
+  --sage:#6f9a7d;
+  --sage2:#8bbf9a;
+  --tea:#7b5744;
+  --ink:#2e2925;
+  --muted:#84746b;
+  --line:rgba(128,91,67,.16);
+  --shadow:0 30px 80px rgba(113,74,49,.16);
+  --softShadow:0 16px 38px rgba(113,74,49,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:Inter, ui-sans-serif, system-ui, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 8% 12%,rgba(255,214,186,.72) 0 12rem,transparent 23rem),
+    radial-gradient(circle at 86% 10%,rgba(255,223,230,.72) 0 13rem,transparent 24rem),
+    radial-gradient(circle at 75% 84%,rgba(223,245,231,.78) 0 15rem,transparent 26rem),
+    linear-gradient(135deg,#fffaf3,#f7fff8 56%,#fff5f7);
+  overflow-x:hidden;
+}
+body:before,body:after{
+  content:"";
+  position:fixed;
+  inset:auto;
+  width:26rem;
+  height:26rem;
+  border-radius:999px;
+  filter:blur(18px);
+  opacity:.45;
+  z-index:-1;
+  animation:floaty 12s ease-in-out infinite alternate;
+}
+body:before{left:-8rem;bottom:8rem;background:#ffe0c2}
+body:after{right:-7rem;top:10rem;background:#dff5e7;animation-delay:1.5s}
+@keyframes floaty{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(2rem,-1.5rem,0) scale(1.08)}}
+.app{
+  max-width:1240px;
+  margin:0 auto;
+  padding:26px;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  min-height:210px;
+  border:1px solid rgba(255,255,255,.65);
+  border-radius:42px;
+  background:linear-gradient(135deg,rgba(255,253,248,.82),rgba(255,244,228,.72));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+  padding:30px;
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  right:34px;
+  top:24px;
+  width:220px;
+  height:220px;
+  border-radius:48% 52% 44% 56%;
+  background:linear-gradient(135deg,rgba(255,215,186,.66),rgba(223,245,231,.74));
+  animation:morph 9s ease-in-out infinite alternate;
+}
+.hero:after{
+  content:"✦";
+  position:absolute;
+  right:82px;
+  top:70px;
+  color:rgba(123,87,68,.25);
+  font-size:70px;
+  transform:rotate(12deg);
+}
+@keyframes morph{from{border-radius:44% 56% 60% 40%;transform:rotate(0deg) scale(1)}to{border-radius:60% 40% 45% 55%;transform:rotate(8deg) scale(1.04)}}
+.heroInner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 290px;gap:24px;align-items:center}
+.brand{display:flex;gap:18px;align-items:center}
+.logo{
+  width:68px;
+  height:68px;
+  border-radius:26px;
+  display:grid;
+  place-items:center;
+  font-size:34px;
+  font-weight:900;
+  color:white;
+  background:linear-gradient(135deg,#f2a56d,#8bbf9a);
+  box-shadow:0 18px 35px rgba(111,154,125,.26);
+}
+h1{margin:0;font-size:42px;line-height:1.05;letter-spacing:.02em;color:#2d2925}
+.subtitle{margin:12px 0 0;color:var(--muted);font-size:17px;line-height:1.8;max-width:640px}
+.heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.heroChip{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.62);border:1px solid rgba(128,91,67,.14);color:#6f5a4f;font-weight:700;font-size:14px}
+.breathCard{
+  position:relative;
+  min-height:168px;
+  border-radius:34px;
+  background:rgba(255,255,255,.58);
+  border:1px solid rgba(128,91,67,.12);
+  display:grid;
+  place-items:center;
+  box-shadow:var(--softShadow);
+}
+.breathCircle{
+  width:112px;height:112px;border-radius:999px;
+  background:radial-gradient(circle,#fff 0 36%,#ffe7d0 37% 62%,#dff5e7 63%);
+  box-shadow:0 0 0 14px rgba(255,255,255,.45),0 0 38px rgba(111,154,125,.24);
+  animation:breathe 5.5s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:scale(.88);opacity:.86}50%{transform:scale(1.08);opacity:1}}
+.breathText{position:absolute;bottom:20px;color:#7b5744;font-size:14px;font-weight:800}
+.mainGrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:22px;margin-top:22px;align-items:start}
+.panel{
+  background:rgba(255,253,248,.83);
+  border:1px solid rgba(128,91,67,.13);
+  border-radius:36px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+  padding:22px;
+}
+.panelTitle{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.panelTitle h2{margin:0;font-size:23px;letter-spacing:.01em}
+.panelHint{color:var(--muted);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat{
+  border-radius:26px;
+  border:1px solid rgba(128,91,67,.12);
+  background:rgba(255,255,255,.54);
+  padding:15px;
+  min-height:92px;
+}
+.statLabel{font-size:13px;color:var(--muted);margin-bottom:9px;font-weight:700}
+.statValue{font-size:17px;font-weight:900;color:#3b302b;line-height:1.35}
+.moodBox{
+  display:grid;
+  grid-template-columns:1fr 230px;
+  gap:16px;
+  align-items:center;
+  border-radius:28px;
+  background:linear-gradient(135deg,rgba(255,244,228,.86),rgba(255,255,255,.62));
+  border:1px solid rgba(128,91,67,.12);
+  padding:16px;
+  margin-bottom:16px;
+}
+.moodNumber{font-weight:950;font-size:22px;color:#4b3a32}
+.moodText{margin-top:4px;color:var(--muted);font-size:14px;line-height:1.6}
+input[type=range]{width:100%;accent-color:#e99a67}
+.chat{
+  height:520px;
+  overflow-y:auto;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  border-radius:32px;
+  background:linear-gradient(180deg,rgba(255,250,243,.88),rgba(255,255,255,.66));
+  border:1px solid rgba(128,91,67,.12);
+  scrollbar-width:thin;
+  scrollbar-color:#eac8ae transparent;
+}
+.msgRow{display:flex;animation:pop .24s ease-out}
+.msgRow.user{justify-content:flex-end}
+@keyframes pop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.msg{
+  max-width:86%;
+  padding:15px 17px;
+  border-radius:24px;
+  font-size:15px;
+  line-height:1.85;
+  white-space:pre-wrap;
+  box-shadow:0 12px 26px rgba(113,74,49,.08);
+}
+.msg.assistant{background:rgba(255,255,255,.86);border:1px solid rgba(128,91,67,.12);border-top-left-radius:10px;color:#3a312d}
+.msg.user{background:linear-gradient(135deg,#ef9f69,#df8177);color:white;border-top-right-radius:10px;box-shadow:0 14px 32px rgba(223,129,119,.25)}
+.quick{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0}
+button{border:none;cursor:pointer;font-family:inherit;transition:.18s ease;user-select:none}
+button:hover{transform:translateY(-1px);filter:brightness(.985)}
+.btn{
+  border-radius:20px;
+  background:linear-gradient(135deg,#84b992,#6f9a7d);
+  color:white;
+  padding:14px 19px;
+  font-weight:900;
+  box-shadow:0 14px 28px rgba(111,154,125,.22);
+}
+.ghost{
+  border:1px solid rgba(128,91,67,.16);
+  background:rgba(255,255,255,.62);
+  color:#6b5144;
+  border-radius:999px;
+  padding:10px 14px;
+  font-weight:750;
+}
+.composer{display:grid;grid-template-columns:1fr auto;gap:12px;margin-top:14px}
+textarea{
+  width:100%;
+  border:1px solid rgba(128,91,67,.16);
+  border-radius:28px;
+  min-height:108px;
+  resize:vertical;
+  padding:16px 18px;
+  background:rgba(255,255,255,.70);
+  color:var(--ink);
+  font:inherit;
+  line-height:1.7;
+  outline:none;
+}
+textarea:focus{border-color:#e5a77c;box-shadow:0 0 0 6px rgba(242,165,109,.15);background:white}
+.side{display:flex;flex-direction:column;gap:22px}
+.resultCard{display:flex;flex-direction:column;gap:14px}
+.empty{color:var(--muted);line-height:1.8}
+.resultBlock{padding:14px;border-radius:24px;background:rgba(255,255,255,.55);border:1px solid rgba(128,91,67,.12)}
+.resultBlock b{display:block;margin-bottom:8px;color:#4b3a32}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:#fff0df;color:#8a5a44;font-size:13px;font-weight:850;border:1px solid rgba(138,90,68,.10)}
+.pill.green{background:#e8f7ef;color:#557d5b}.pill.rose{background:#ffecef;color:#a75c68}
+.method{
+  position:relative;
+  overflow:hidden;
+  padding:16px;
+  border-radius:28px;
+  background:linear-gradient(135deg,rgba(255,250,243,.90),rgba(255,255,255,.68));
+  border:1px solid rgba(128,91,67,.12);
+  box-shadow:0 12px 26px rgba(113,74,49,.07);
+  margin-bottom:12px;
+}
+.method:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(#f2a56d,#8bbf9a)}
+.method p{margin:0 0 12px;line-height:1.75;color:#453833}
+.saveBtn{background:#6f9a7d;color:white;border-radius:999px;padding:9px 13px;font-weight:850}
+.record{padding:14px;border-radius:24px;background:rgba(255,255,255,.56);border:1px solid rgba(128,91,67,.12);margin-bottom:10px;line-height:1.7}
+.recordTime{font-size:12px;color:var(--muted);margin-bottom:7px}
+.records{max-height:290px;overflow:auto}
+.tinyActions{display:flex;gap:8px;flex-wrap:wrap}
+.smallBtn{border-radius:999px;padding:9px 13px;background:rgba(255,255,255,.62);border:1px solid rgba(128,91,67,.14);color:#6b5144;font-weight:800}
+@media(max-width:960px){.heroInner,.mainGrid,.stats,.moodBox,.composer{grid-template-columns:1fr}.breathCard{display:none}.app{padding:16px}h1{font-size:34px}.chat{height:460px}.msg{max-width:94%}}
 </style>
 </head>
 <body>
-<div class="page">
-<section class="hero">
-<div class="top">
-<div class="brand"><div class="logo">心</div><div><h1>小小情绪花园</h1><p class="sub">把一团乱糟糟的感受，慢慢整理成可以面对的一小步。</p></div></div>
-<div class="calm"><span class="leaf">🍃</span><span>今天也可以慢一点</span></div>
-</div>
-<div class="notice">这里是心理支持和自助练习工具，不做诊断，不提供医疗建议，也不替代专业人士。它会帮助你识别情绪，问题和认知模式，再给出温和的小练习。</div>
-</section>
-<div class="grid">
-<main class="card">
-<h2>今天发生了什么</h2>
-<div class="row"><div class="mini"><b>当前强度</b><span id="levelText">普通支持</span></div><div class="mini"><b>主要主题</b><span id="issueText">等待输入</span></div><div class="mini"><b>分析方式</b><span id="sourceText">智能分析</span></div></div>
-<div class="slider"><div><b>情绪强度：<span id="moodValue">5</span>/10</b><p>只要大概选一个数字就好，不需要很精确。</p></div><input id="mood" type="range" min="1" max="10" value="5"></div>
-<div class="chat" id="chat"></div>
-<div class="quick" id="quickBtns"></div>
-<div class="composer"><textarea id="input" placeholder="写下你的经历，想法，或别人对你说的话。可以很乱，也可以只写一句。"></textarea><button id="sendBtn">整理一下</button></div>
-</main>
-<aside class="side">
-<section class="card"><h2>识别结果</h2><div id="analysisBox" class="analysis muted">输入内容后，这里会显示情绪，主题和可能的思维模式。</div></section>
-<section class="card"><h2>适合现在的小练习</h2><div id="methodsBox"></div></section>
-<section class="card"><h2>练习记录</h2><textarea id="note" placeholder="写下你试了哪个方法，感觉有没有变化。"></textarea><div id="recordsBox" class="records"></div></section>
-</aside>
-</div>
+<div class="app">
+  <section class="hero">
+    <div class="heroInner">
+      <div>
+        <div class="brand">
+          <div class="logo">心</div>
+          <div>
+            <h1>小小情绪花园</h1>
+            <p class="subtitle">这里不是冰冷的分析器，而是一个帮你把心事慢慢放下来的空间。写乱一点也没关系，我会帮你整理成情绪，主题和下一小步。</p>
+          </div>
+        </div>
+        <div class="heroActions">
+          <span class="heroChip">🌿 温柔整理</span>
+          <span class="heroChip">🌙 私密记录</span>
+          <span class="heroChip">🍑 小步练习</span>
+        </div>
+      </div>
+      <div class="breathCard">
+        <div class="breathCircle"></div>
+        <div class="breathText">跟着呼吸慢一点</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mainGrid">
+    <main class="panel">
+      <div class="panelTitle">
+        <div><h2>今天发生了什么</h2><div class="panelHint">可以是一句话，也可以是一整段心事。</div></div>
+        <div class="tinyActions"><button class="smallBtn" id="resetBtn">清空</button><button class="smallBtn" id="exportBtn">导出</button></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="statLabel">当前强度</div><div class="statValue" id="levelText">普通支持</div></div>
+        <div class="stat"><div class="statLabel">主要主题</div><div class="statValue" id="issueText">等待输入</div></div>
+        <div class="stat"><div class="statLabel">状态</div><div class="statValue" id="sourceText">准备好了</div></div>
+      </div>
+
+      <div class="moodBox">
+        <div><div class="moodNumber">情绪强度 <span id="moodValue">5</span>/10</div><div class="moodText">不用很精确。这个数字只是帮我们判断先安抚身体，还是先整理想法。</div></div>
+        <input id="mood" type="range" min="1" max="10" value="5">
+      </div>
+
+      <div class="chat" id="chat"></div>
+      <div class="quick" id="quickBtns"></div>
+      <div class="composer"><textarea id="input" placeholder="把脑子里的话放到这里。比如：今天有人评价我，我一直在想，是不是我真的很差……"></textarea><button class="btn" id="sendBtn">帮我整理</button></div>
+    </main>
+
+    <aside class="side">
+      <section class="panel">
+        <div class="panelTitle"><h2>整理结果</h2></div>
+        <div id="analysisBox" class="resultCard"><div class="empty">写下内容后，这里会出现情绪，主题，可能的思维模式和一段温和理解。</div></div>
+      </section>
+
+      <section class="panel">
+        <div class="panelTitle"><h2>适合现在的小练习</h2></div>
+        <div id="methodsBox"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panelTitle"><h2>练习记录</h2></div>
+        <textarea id="note" placeholder="试完一个方法后，写下你现在的感觉。"></textarea>
+        <div id="recordsBox" class="records"></div>
+      </section>
+    </aside>
+  </div>
 </div>
 <script>
 const API_URL="https://bordercolliephilo-mental-helper.hf.space/analyze";
-const first={role:"assistant",text:"欢迎来到小小情绪花园。你可以把今天的经历写下来，我会帮你整理可能的情绪，主题和适合现在的小练习。"};
+const first={role:"assistant",text:"欢迎来到小小情绪花园。你可以把今天的经历放在这里，我会帮你温柔地整理它。"};
 const localRules=[
-{issue:"外貌焦虑和自我形象困扰",words:["长得","不好看","一般","脸","个头","身高","地包天","大众脸","不够帅","不够高","外貌","颜值","被评价","像很多人","自卑"],methods:["事实和评价分开写：事实是外貌特征，评价是自己或别人贴上的标签。","把注意力从我长得怎么样，转到这些评价让我受到了什么影响。","写下三个非外貌维度的自我描述，例如经历，性格，能力，关系，兴趣。","把攻击自己的话改写成对朋友也说得出口的话。"]},
+{issue:"外貌焦虑和自我形象困扰",words:["长得","不好看","一般","脸","个头","身高","地包天","大众脸","不够帅","不够高","外貌","颜值","被评价","像很多人","自卑"],methods:["把事实和评价分开写。事实是外貌特征，评价是自己或别人贴上的标签。","把注意力从我长得怎么样，转到这些评价让我受到了什么影响。","写下三个非外貌维度的自我描述，例如经历，性格，能力，关系，兴趣。","把攻击自己的话改写成对朋友也说得出口的话。"]},
 {issue:"焦虑和灾难化想法",words:["焦虑","担心","害怕","紧张","完蛋","肯定不行","最糟","会失败"],methods:["把担心写成一句具体的话。","列出支持和反对这个想法的证据。","写出最坏，中间，最好三种可能结果。","做 4 秒吸气和 6 秒呼气，重复三轮。"]},
 {issue:"关系受伤和被拒绝感",words:["朋友","忽略","冷淡","分手","喜欢我","讨厌我","家人","父母","对象"],methods:["区分事实和解释。","写出真实需要，例如被回应，被尊重，被理解。","等情绪下降一点后再表达。","用我感到怎样，因为我需要怎样的句式沟通。"]},
 {issue:"学习或工作压力",words:["考试","作业","ddl","deadline","论文","成绩","presentation","工作","项目"],methods:["把任务拆成十五分钟内能完成的一步。","先做最容易开始的一步。","用事实列表替代恐慌列表。","设一个结束时间，避免无限焦虑。"]},
 {issue:"睡眠困难和夜间反刍",words:["睡不着","失眠","熬夜","睡眠","做梦","醒","脑子停不下来"],methods:["把明天要处理的事写到纸上。","把目标从必须睡着改成降低唤醒。","减少屏幕和强刺激内容。","如果躺很久仍清醒，可以短暂离开床。"]}
 ];
 const defaultMethods=["先给情绪命名。","给情绪打一个大概分数。","写下触发事件，自动想法，身体反应，想做的冲动。","做一个很小的照顾动作，例如喝水，洗脸，深呼吸。"];
-function read(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}let messages=read("mh_messages_v2",[first]);let records=read("mh_records_v2",[]);let last=null;const el=id=>document.getElementById(id);const has=(t,arr)=>arr.some(w=>String(t||"").toLowerCase().includes(String(w).toLowerCase()));
+function read(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+let messages=read("garden_messages_v3",[first]);let records=read("garden_records_v3",[]);let last=null;const el=id=>document.getElementById(id);const has=(t,arr)=>arr.some(w=>String(t||"").toLowerCase().includes(String(w).toLowerCase()));
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]))}
-function localAnalyze(text,mood){const matched=localRules.filter(r=>has(text,r.words));const main=matched[0]||{issue:"暂未明确分类的情绪压力",methods:defaultMethods};const emotions=[];if(has(text,["焦虑","担心","紧张","害怕"]))emotions.push("焦虑");if(has(text,["难过","低落","委屈","伤心"]))emotions.push("难过");if(has(text,["长得","不好看","脸","身高","地包天","自卑"]))emotions.push("羞耻");if(has(text,["压力","累","忙","撑不住"]))emotions.push("压力");if(!emotions.length)emotions.push("压力");const patterns=[];if(has(text,["肯定","一定","完蛋","最糟"]))patterns.push("灾难化");if(has(text,["大家都觉得","很多人","像很多人","总是"]))patterns.push("过度概括");if(has(text,["长得","脸","身高","颜值","地包天"]))patterns.push("外貌比较");const level=mood>=8?"高强度情绪":mood>=5?"中等强度情绪":"普通支持";return{source:"本地增强分析",model:"warm ui rules",confidence:matched.length?.78:.5,risk:level,issue:main.issue,allIssues:matched.length?matched.map(x=>x.issue):[main.issue],emotions,patterns,formulation:`你的描述里主要出现了${emotions.join("、")}，可能和${main.issue}有关。${patterns.length?"里面也有"+patterns.join("、")+"的成分。":""}`,methods:main.methods}}
-async function analyze(text,mood){try{const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,mood})});if(!r.ok)throw new Error("api failed");const d=await r.json();const fallback=localAnalyze(text,mood);return{source:d.source||"智能分析",model:d.model||"mental helper",confidence:typeof d.confidence==="number"?d.confidence:.8,risk:d.risk||d.level||fallback.risk,issue:d.issue||fallback.issue,allIssues:d.allIssues||d.all_issues||fallback.allIssues,emotions:d.emotions||fallback.emotions,patterns:d.patterns||fallback.patterns,formulation:d.formulation||fallback.formulation,methods:d.methods||fallback.methods}}catch(e){return localAnalyze(text,mood)}}
-function reply(result){const lines=[`我先帮你整理成一个比较清楚的版本。`,`主要主题：${result.issue}`,`可能的情绪：${result.emotions.join("，")}`,result.patterns&&result.patterns.length?`可能的思维模式：${result.patterns.join("，")}`:"",result.formulation?`我的理解：${result.formulation}`:"","可以先试试：",...result.methods.map((m,i)=>`${i+1}. ${m}`),"先选最容易做到的一条就好。"].filter(Boolean);return{role:"assistant",text:lines.join("\n")}}
-function render(){el("chat").innerHTML=messages.map(m=>`<div class="wrap ${m.role==="user"?"user":""}"><div class="bubble ${m.role==="user"?"user":"assistant"}">${esc(m.text)}</div></div>`).join("");el("chat").scrollTop=el("chat").scrollHeight;const mood=Number(el("mood").value);const res=last||localAnalyze(messages.filter(m=>m.role==="user").map(m=>m.text).join(" "),mood);el("levelText").innerHTML=`<span class="tag ${String(res.risk).includes("高")?"warm":""}">${res.risk}</span>`;el("issueText").textContent=last?last.issue:"等待输入";el("sourceText").textContent="智能分析";el("analysisBox").innerHTML=last?`<p><b>主要主题：</b>${esc(last.issue)}</p><p><b>相关主题：</b>${esc(last.allIssues.join("，"))}</p><p><b>可能情绪：</b>${esc(last.emotions.join("，"))}</p>${last.patterns&&last.patterns.length?`<p><b>思维模式：</b>${esc(last.patterns.join("，"))}</p>`:""}${last.formulation?`<p><b>简短理解：</b>${esc(last.formulation)}</p>`:""}<p><b>强度等级：</b>${esc(last.risk)}</p>`:"输入内容后，这里会显示情绪，主题和可能的思维模式。";const ms=last?last.methods:defaultMethods;el("methodsBox").innerHTML=ms.map((m,i)=>`<div class="method"><p>${esc(m)}</p><button onclick="saveMethod(${i})">存进记录</button></div>`).join("");el("recordsBox").innerHTML=records.length?records.map(x=>`<div class="record"><p class="muted">${new Date(x.time).toLocaleString()}，强度 ${x.mood}/10</p><p><b>主题：</b>${esc(x.issue)}</p><p><b>方法：</b>${esc(x.method)}</p>${x.note?`<p><b>记录：</b>${esc(x.note)}</p>`:""}</div>`).join(""):`<p class="muted">还没有保存记录。</p>`;localStorage.setItem("mh_messages_v2",JSON.stringify(messages));localStorage.setItem("mh_records_v2",JSON.stringify(records))}
+function localAnalyze(text,mood){const matched=localRules.filter(r=>has(text,r.words));const main=matched[0]||{issue:"暂未明确分类的情绪压力",methods:defaultMethods};const emotions=[];if(has(text,["焦虑","担心","紧张","害怕"]))emotions.push("焦虑");if(has(text,["难过","低落","委屈","伤心"]))emotions.push("难过");if(has(text,["长得","不好看","脸","身高","地包天","自卑"]))emotions.push("羞耻");if(has(text,["压力","累","忙","撑不住"]))emotions.push("压力");if(!emotions.length)emotions.push("压力");const patterns=[];if(has(text,["肯定","一定","完蛋","最糟"]))patterns.push("灾难化");if(has(text,["大家都觉得","很多人","像很多人","总是"]))patterns.push("过度概括");if(has(text,["长得","脸","身高","颜值","地包天"]))patterns.push("外貌比较");const risk=mood>=8?"高强度情绪":mood>=5?"中等强度情绪":"普通支持";return{source:"智能分析",model:"warm garden rules",confidence:matched.length?.78:.5,risk,issue:main.issue,allIssues:matched.length?matched.map(x=>x.issue):[main.issue],emotions,patterns,formulation:`我理解为：这段话里主要有${emotions.join("、")}，主题可能是${main.issue}。${patterns.length?"里面也夹杂着"+patterns.join("、")+"。":""}`,methods:main.methods}}
+async function analyze(text,mood){try{const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,mood})});if(!r.ok)throw new Error("api failed");const d=await r.json();const f=localAnalyze(text,mood);return{source:"智能分析",model:"mental helper",confidence:typeof d.confidence==="number"?d.confidence:.8,risk:d.risk||d.level||f.risk,issue:d.issue||f.issue,allIssues:d.allIssues||d.all_issues||f.allIssues,emotions:d.emotions||f.emotions,patterns:d.patterns||f.patterns,formulation:d.formulation||f.formulation,methods:d.methods||f.methods}}catch(e){return localAnalyze(text,mood)}}
+function reply(r){const lines=["我先帮你把这团感受整理一下。",`主要主题：${r.issue}`,`可能的情绪：${r.emotions.join("，")}`,r.patterns&&r.patterns.length?`可能的思维模式：${r.patterns.join("，")}`:"",r.formulation?`温和理解：${r.formulation}`:"","可以先试试：",...r.methods.map((m,i)=>`${i+1}. ${m}`),"先选最容易做到的一条就好。"].filter(Boolean);return{role:"assistant",text:lines.join("\n")}}
+function render(){el("chat").innerHTML=messages.map(m=>`<div class="msgRow ${m.role==="user"?"user":""}"><div class="msg ${m.role==="user"?"user":"assistant"}">${esc(m.text)}</div></div>`).join("");el("chat").scrollTop=el("chat").scrollHeight;const mood=Number(el("mood").value);const r=last||localAnalyze(messages.filter(m=>m.role==="user").map(m=>m.text).join(" "),mood);el("levelText").innerHTML=`<span class="pill green">${esc(r.risk)}</span>`;el("issueText").textContent=last?last.issue:"等待输入";el("sourceText").textContent="已准备";el("analysisBox").innerHTML=last?`<div class="resultBlock"><b>主要主题</b><div class="pills"><span class="pill">${esc(last.issue)}</span></div></div><div class="resultBlock"><b>可能情绪</b><div class="pills">${last.emotions.map(x=>`<span class="pill green">${esc(x)}</span>`).join("")}</div></div>${last.patterns&&last.patterns.length?`<div class="resultBlock"><b>思维模式</b><div class="pills">${last.patterns.map(x=>`<span class="pill rose">${esc(x)}</span>`).join("")}</div></div>`:""}${last.formulation?`<div class="resultBlock"><b>温和理解</b><p>${esc(last.formulation)}</p></div>`:""}`:`<div class="empty">写下内容后，这里会出现情绪，主题，可能的思维模式和一段温和理解。</div>`;const ms=last?last.methods:defaultMethods;el("methodsBox").innerHTML=ms.map((m,i)=>`<div class="method"><p>${esc(m)}</p><button class="saveBtn" onclick="saveMethod(${i})">存进记录</button></div>`).join("");el("recordsBox").innerHTML=records.length?records.map(x=>`<div class="record"><div class="recordTime">${new Date(x.time).toLocaleString()}，强度 ${x.mood}/10</div><div><b>主题：</b>${esc(x.issue)}</div><div><b>方法：</b>${esc(x.method)}</div>${x.note?`<div><b>记录：</b>${esc(x.note)}</div>`:""}</div>`).join(""):`<p class="empty">还没有保存记录。</p>`;localStorage.setItem("garden_messages_v3",JSON.stringify(messages));localStorage.setItem("garden_records_v3",JSON.stringify(records))}
 async function send(t){const clean=String(t||el("input").value||"").trim();if(!clean)return;messages.push({role:"user",text:clean,time:new Date().toISOString()});el("input").value="";render();last=await analyze(clean,Number(el("mood").value));messages.push({...reply(last),time:new Date().toISOString()});render()}
-window.saveMethod=function(i){const ms=last?last.methods:defaultMethods;records.unshift({id:Date.now(),time:new Date().toISOString(),mood:Number(el("mood").value),issue:last?last.issue:"未识别",method:ms[i],note:el("note").value});el("note").value="";render()};el("sendBtn").onclick=()=>send();el("mood").oninput=()=>{el("moodValue").textContent=el("mood").value;render()};el("resetBtn").onclick=()=>{messages=[first];records=[];last=null;localStorage.removeItem("mh_messages_v2");localStorage.removeItem("mh_records_v2");render()};el("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({messages,records},null,2)],{type:"application/json"});const a=document.createElement("a");const url=URL.createObjectURL(blob);a.href=url;a.download="mental_helper_records.json";a.click();URL.revokeObjectURL(url)};["我觉得自己长得一般，经常因为脸和身高自卑","我最近很焦虑，总觉得自己会失败","朋友没回我消息，我感觉没人喜欢我","我睡不着，脑子一直停不下来"].forEach(t=>{const b=document.createElement("button");b.className="secondary";b.textContent=t;b.onclick=()=>send(t);el("quickBtns").appendChild(b)});render();
+window.saveMethod=function(i){const ms=last?last.methods:defaultMethods;records.unshift({id:Date.now(),time:new Date().toISOString(),mood:Number(el("mood").value),issue:last?last.issue:"未识别",method:ms[i],note:el("note").value});el("note").value="";render()};
+el("sendBtn").onclick=()=>send();el("mood").oninput=()=>{el("moodValue").textContent=el("mood").value;render()};el("resetBtn").onclick=()=>{messages=[first];records=[];last=null;localStorage.removeItem("garden_messages_v3");localStorage.removeItem("garden_records_v3");render()};el("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({messages,records},null,2)],{type:"application/json"});const a=document.createElement("a");const url=URL.createObjectURL(blob);a.href=url;a.download="mood_garden_records.json";a.click();URL.revokeObjectURL(url)};["我觉得自己长得一般，经常因为脸和身高自卑","我最近很焦虑，总觉得自己会失败","朋友没回我消息，我感觉没人喜欢我","我睡不着，脑子一直停不下来"].forEach(t=>{const b=document.createElement("button");b.className="ghost";b.textContent=t;b.onclick=()=>send(t);el("quickBtns").appendChild(b)});render();
 </script>
 </body>
 </html>
